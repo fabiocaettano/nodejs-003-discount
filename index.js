@@ -22,12 +22,14 @@ var server = http.createServer(function(req,res){
     // Get the HTTP method
     var method = req.method.toLowerCase();
 
-    
+    // Get the headers as an object
+     
 
     // Log the request/response
     console.log('Request received on path: '+trimmedPath);
     console.log(`Method: ${method}`);
-    console.log(queryStringObject);
+    console.log('Query String Object: ',queryStringObject);
+
     
     
     // control for favicon
