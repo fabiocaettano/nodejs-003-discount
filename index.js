@@ -1,10 +1,12 @@
 /**
- * 
+ * Discount Courses - The Nodje.js Master Class
  */
 
 //Dependencies
 var http = require('http');
 var url = require('url');
+var StringDecoder = require('string_decoder').StringDecoder;
+
 
 //Configure the server to respond to all requests with a string
 var server = http.createServer(function(req,res){
@@ -22,29 +24,45 @@ var server = http.createServer(function(req,res){
     // Get the HTTP method
     var method = req.method.toLowerCase();
 
-    // Get the headers as an object    
-    var headers = req.headers; 
+    // Get the headers as an object
+     
 
+<<<<<<< HEAD
+     // Get the payload,if any
+    var decoder = new StringDecoder('utf-8');
+    var buffer = '';    
+
+    req.on('data', function(data) {
+      buffer += decoder.write(data);
+    });
+    
+    req.on('end', function() {
+      buffer += decoder.end();
+
+      // Send the response
+      res.writeHead(200, {'Content-Type': 'text/plain'} );
+      res.write('Hello, world! \n');
+      res.end();       
+=======
     // Log the request/response
     console.log('Request received on path: '+trimmedPath);
     console.log(`Method: ${method}`);
     console.log('Query String Object: ',queryStringObject);
-    console.log('Request received with these headers:', headers);
+>>>>>>> parent of 2e32d2b... parsing headers
+
+      // Log the request/response
+      console.log('Request received on path: '+trimmedPath);
+      console.log(`Method: ${method}`);
+      console.log('Query String Object: ',queryStringObject);
+      console.log('Request received with these headers:', headers);   
+      console.log('Request received with this payload: ',buffer);
+    });
 
     
     
-    // control for favicon
-    if (trimmedPath === 'favicon.ico') {
-        res.writeHead(200, {'Content-Type': 'image/x-icon'} );
-        res.end();
-        console.log('favicon requested \n');
-        return;
-    }
-
-    // not the favicon   
-    res.writeHead(200, {'Content-Type': 'text/plain'} );
-    res.write('Hello, world! \n');
-    res.end();     
+    
+    
+    
 
     
 });
