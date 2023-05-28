@@ -25,9 +25,8 @@ var server = http.createServer(function(req,res){
     var method = req.method.toLowerCase();
 
     // Get the headers as an object
-     
+    var headers = req.headers;
 
-<<<<<<< HEAD
      // Get the payload,if any
     var decoder = new StringDecoder('utf-8');
     var buffer = '';    
@@ -43,12 +42,11 @@ var server = http.createServer(function(req,res){
       res.writeHead(200, {'Content-Type': 'text/plain'} );
       res.write('Hello, world! \n');
       res.end();       
-=======
-    // Log the request/response
-    console.log('Request received on path: '+trimmedPath);
-    console.log(`Method: ${method}`);
-    console.log('Query String Object: ',queryStringObject);
->>>>>>> parent of 2e32d2b... parsing headers
+
+      // Log the request/response
+      console.log('Request received on path: '+trimmedPath);
+      console.log(`Method: ${method}`);
+      console.log('Query String Object: ',queryStringObject);
 
       // Log the request/response
       console.log('Request received on path: '+trimmedPath);
@@ -56,15 +54,7 @@ var server = http.createServer(function(req,res){
       console.log('Query String Object: ',queryStringObject);
       console.log('Request received with these headers:', headers);   
       console.log('Request received with this payload: ',buffer);
-    });
-
-    
-    
-    
-    
-    
-
-    
+  });    
 });
 
 server.listen(3000,function(){
