@@ -38,25 +38,68 @@ var server = http.createServer(function(req,res){
     req.on('end', function() {
       buffer += decoder.end();
 
-      // Send the response
-      res.writeHead(200, {'Content-Type': 'text/plain'} );
-      res.write('Hello, world! \n');
-      res.end();       
+      // Check the router for a matching path for a handler. If one is not found, use the notFound handler instead.
+      var chosenHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath] : handlers.notFound;
 
-      // Log the request/response
-      console.log('Request received on path: '+trimmedPath);
-      console.log(`Method: ${method}`);
-      console.log('Query String Object: ',queryStringObject);
+      // Construct the data object to send to the handler
+      var data = {
+        'trimmedPath' : trimmedPath,
+        'queryStringObject' : queryStringObject,
+        'method' : method,
+        'headers' : headers,
+        'payload' : buffer
+      };
 
-      // Log the request/response
-      console.log('Request received on path: '+trimmedPath);
-      console.log(`Method: ${method}`);
-      console.log('Query String Object: ',queryStringObject);
-      console.log('Request received with these headers:', headers);   
-      console.log('Request received with this payload: ',buffer);
-  });    
+      // Route the request to the handler specified in the router
+      chosenHandler(data,function(statusCode,payload){
+
+        // Use the status code returned from the handler, or set the default status code to 200
+        statusCode = typeof(statusCode) == 'number' ? statusCode : 200;
+
+        // Use the payload returned from the handler, or set the default payload to an empty object
+        payload = typeof(payload) == 'object'? payload : {};
+
+        // Convert the payload to a string
+        var payloadString = JSON.stringify(payload);
+
+        // Send the response
+        res.writeHead(statusCode, {'Content-Type': 'text/plain'} );
+        res.write('Hello, world! \n');
+        res.end(payloadString);       
+
+        // Log the request/response
+        console.log('Request received on path: '+trimmedPath);
+        console.log(`Method: ${method}`);
+        console.log('Query String Object: ',queryStringObject);
+
+        // Log the request/response
+        console.log('Request received on path: '+trimmedPath);
+        console.log(`Method: ${method}`);
+        console.log('Query String Object: ',queryStringObject);
+        console.log('Request received with these headers:', headers);   
+        console.log('Request received with this payload: ',buffer);
+      });
+    });    
 });
 
 server.listen(3000,function(){
     console.log('The server is up and running now');
 });
+
+// Define all the handlers
+var handlers = {};
+
+// Sample handler
+handlers.sample = function(data,callback){
+    callback(406,{'name':'sample handler'});
+};
+
+// Not found handler
+handlers.notFound = function(data,callback){
+  callback(404);
+};
+
+// Define the request router
+var router = {
+  'sample' : handlers.sample
+};
