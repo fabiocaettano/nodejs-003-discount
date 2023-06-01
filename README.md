@@ -18,3 +18,5 @@ curl --request GET --url http://localhost:3000/ --header 'valueA: 10' --header '
 cd open https
 openssl req -newkey rsa:2048 -new -nodes -x509 -days 3650 -keyout key.pem -out cert.pem
 `
+
+## Storing Data

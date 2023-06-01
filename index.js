@@ -9,7 +9,39 @@ var url = require('url');
 var StringDecoder = require('string_decoder').StringDecoder;
 var config = require('./config');
 var fs = require('fs');
+var _data =  require('./lib/data');
 console.log('config:',config);
+
+//Testing create data
+_data.create('test','newfile',{'foo':'bar'},function(err){
+  if(err){
+    console.log('this was the error', err);
+  }
+});
+
+//Testing read data
+/*_data.read('test','newfile',function(err,data){
+  if(!err){
+    console.log('this was the data:',data);
+  }else{
+    console.log('this was the error:',err);
+  }  
+});*/
+
+//Testing update data
+/*_data.update('test','newfile',{'foo3':'bar3'},function(err){
+  if(err){
+    console.log('this was the error', err);
+  }
+});*/
+
+//Testing update data
+/*_data.delete('test','newfile',function(err){
+  if(err){
+    console.log('this was the error', err);
+  }
+});*/
+
 
  // Instantiate the HTTP server
  var httpServer = http.createServer(function(req,res){
